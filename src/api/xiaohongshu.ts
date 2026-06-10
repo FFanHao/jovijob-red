@@ -198,7 +198,7 @@ const __dirname = dirname(fileURLToPath(import.meta.url))
 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
 export async function generateCover(data: Record<string, any>, outputPath?: string): Promise<{ success: boolean; path?: string; error?: string }> {
-  const templatePath = join(__dirname, 'data', 'xiaohongshu-cover.html')
+  const templatePath = join(__dirname, '..', 'data', 'xiaohongshu-cover.html')
   const templateHtml = fs.readFileSync(templatePath, 'utf-8')
 
   if (!data.logo_url) {
@@ -213,7 +213,7 @@ export async function generateCover(data: Record<string, any>, outputPath?: stri
     const puppeteer = await import('puppeteer')
     const browser = await puppeteer.default.launch({
       headless: true,
-      args: ['--no-sandbox', '--disable-setuid-sandbox'],
+      args: ['--no-sandbox', '--disable-setuid-sandbox', '--ignore-certificate-errors'],
     })
     const page = await browser.newPage()
     await page.setViewport({ width: 1080, height: 1440, deviceScaleFactor: 2 })
@@ -227,7 +227,7 @@ export async function generateCover(data: Record<string, any>, outputPath?: stri
 }
 
 export function previewHtml(data: Record<string, any>): string {
-  const templatePath = join(__dirname, 'data', 'xiaohongshu-cover.html')
+  const templatePath = join(__dirname, '..', 'data', 'xiaohongshu-cover.html')
   const templateHtml = fs.readFileSync(templatePath, 'utf-8')
   if (!data.logo_url) {
     data.logo_url = 'https://jovijob.com/image/upload/everydayjob.png'
