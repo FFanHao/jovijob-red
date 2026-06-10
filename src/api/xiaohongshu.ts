@@ -198,12 +198,6 @@ const __dirname = dirname(fileURLToPath(import.meta.url))
 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
 export async function generateCover(data: Record<string, any>, outputPath?: string): Promise<{ success: boolean; path?: string; error?: string }> {
-  const chromePath = process.platform === 'darwin'
-    ? '/Applications/Google Chrome.app/Contents/MacOS/Google Chrome'
-    : process.platform === 'win32'
-      ? 'C:\\Program Files\\Google\\Chrome\\Application\\chrome.exe'
-      : '/usr/bin/google-chrome'
-
   const templatePath = join(__dirname, 'data', 'xiaohongshu-cover.html')
   const templateHtml = fs.readFileSync(templatePath, 'utf-8')
 
@@ -216,9 +210,8 @@ export async function generateCover(data: Record<string, any>, outputPath?: stri
   const finalOutputPath = outputPath || join(os.homedir(), 'Downloads', `xhs-cover-${Date.now()}.png`)
 
   try {
-    const puppeteer = await import('puppeteer-core')
+    const puppeteer = await import('puppeteer')
     const browser = await puppeteer.default.launch({
-      executablePath: chromePath,
       headless: true,
       args: ['--no-sandbox', '--disable-setuid-sandbox'],
     })
